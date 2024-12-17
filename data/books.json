@@ -1,0 +1,121 @@
+{
+  "books": [
+    {
+      "id": "2",
+      "title": "The Great Gatsby",
+      "author": "F. Scott Fitzgerald",
+      "isbn": "9780743273565",
+      "pages": 200,
+      "available": true,
+      "genre": "Fiction"
+    },
+    {
+      "id": "3",
+      "title": "1984",
+      "author": "George Orwell",
+      "isbn": "9780451524935",
+      "pages": 328,
+      "available": true,
+      "genre": "Fiction"
+    },
+    {
+      "id": "4",
+      "title": "Pride and Prejudice",
+      "author": "Jane Austen",
+      "isbn": "9780141439518",
+      "pages": 480,
+      "available": true,
+      "genre": "Fiction"
+    },
+    {
+      "id": "5",
+      "title": "The Catcher in the Rye",
+      "author": "J.D. Salinger",
+      "isbn": "9780316769174",
+      "pages": 234,
+      "available": true,
+      "genre": "Fiction"
+    },
+    {
+      "id": "6",
+      "title": "To Kill a Kingdom",
+      "author": "Alexandra Christo",
+      "isbn": "9781250112682",
+      "pages": 368,
+      "available": true,
+      "genre": "Fantasy"
+    },
+    {
+      "id": "6f37f0ae-37d5-48f2-8ae9-dbc5a59b47db",
+      "title": "The Hobbit",
+      "author": "J.R.R. Tolkien",
+      "isbn": "9780547928227",
+      "pages": 310,
+      "available": false,
+      "genre": "Fantasy"
+    },
+    {
+      "id": "8f2f3de0-fa48-495e-a9b1-0290150356dd",
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "isbn": "9780061120084",
+      "pages": 336,
+      "available": true,
+      "genre": "Fiction"
+    },
+    {
+      "id": "8b8de75b-b7b3-465f-a4e7-15ed8c7c59e9",
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "isbn": "9780061120084",
+      "pages": 336,
+      "available": true,
+      "genre": "Fiction"
+    },
+    {
+      "id": "c6b521e1-971e-42a0-936e-0fa4a3da2ab4",
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "isbn": "9780061120084",
+      "pages": 336,
+      "available": true,
+      "genre": "Fiction"
+    },
+    {
+      "id": "a6b50edb-8d2c-4eca-bffc-8f4e9c084b86",
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "isbn": "9780061120084",
+      "pages": 336,
+      "available": true,
+      "genre": "Fiction"
+    },
+    {
+      "id": "2f8114b0-098c-4fcd-aa6c-3b66a5ebbe27",
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "isbn": "9780061120084",
+      "pages": 336,
+      "available": true,
+      "genre": "Fiction"
+    },
+    {
+      "id": "71c7849a-91c1-4b23-a447-980af2d0886c",
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "isbn": "9780061120084",
+      "pages": 336,
+      "available": true,
+      "genre": "Fiction"
+    },
+    {
+      "id": "0ecd1b24-ff6a-4f9a-8465-c9240101203b",
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "isbn": "9780061120084",
+      "pages": 336,
+      "available": true,
+      "genre": "Fiction"
+    }
+  ]
+}
