@@ -1,33 +1,35 @@
-//import booksData from '../../data/books.json' //assert { type: 'json' };
+// ✅ Correct path to books.json
+import booksData from '../../data/books.json' with { type: 'json' };
 
-import fs from 'fs';
-import path from 'path';
-
-// Resolving the path to the JSON file
-const filePath = path.resolve('data/books.json');
-
+// ✅ Function to fetch books
 const getBooks = (genre, available) => {
-  // Load the JSON file synchronously
-  const booksData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  console.log('Loading books data from books.json...');
+  let books = booksData.books; // ✅ Start with all books
+  console.log('Initial books data:', books);
 
-  // Start with all books from the JSON data
-  let books = booksData.books;
-
-  // If a genre is specified, filter books by the given genre
+  // ✅ Filter by genre if specified
   if (genre) {
     books = books.filter((book) => book.genre === genre);
   }
+  console.log('Books after genre filter:', books);
 
-  // If availability is specified, filter books by their availability status
+  // ✅ Filter by availability if specified
   if (available !== undefined) {
-    // JSON.parse(available) converts the string to a boolean
-    books = books.filter((book) => book.available === JSON.parse(available));
+    try {
+      books = books.filter((book) => book.available === JSON.parse(available));
+    } catch (error) {
+      console.error('Error parsing availability:', error);
+    }
   }
-  
-  return books;
+  console.log('Books after availability filter:', books);
+
+  return books; // ✅ Return filtered books
 };
 
 export default getBooks;
+
+
+
 
 
 

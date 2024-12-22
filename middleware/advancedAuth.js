@@ -1,13 +1,14 @@
 import { auth } from 'express-oauth2-jwt-bearer';
 
-
 const authMiddleware = auth({
-  audience: 'https://book-store-api',
-  issuerBaseURL: `https://dev-7txjr4h7f68rlivl.us.auth0.com/`,
+  audience: 'https://bookstore-prisma-api',
+  issuerBaseURL: `https://dev-7txjr4h7f68rlivl.us.auth0.com`,// ojo this was missing: https://
+  tokenSigningAlg: 'RS256',
+  scopes: ['write:books', 'delete:books'], // Include both permissions here.  if the scopes array does not include the required permissions (e.g., write:books, delete:books), and the API route explicitly checks for those permissions, Postman will return an error when you try to access that route with a token that doesn't include the appropriate scopes.Does the token include the required scopes? If yes: Access is granted. If not: The middleware will block the request with a 403. So for security issues Always include the scopes validation in your middleware to enforce fine-grained access control:Forbidden response.
+
 });
 
 export default authMiddleware;
-
 
 // NOTES:
 

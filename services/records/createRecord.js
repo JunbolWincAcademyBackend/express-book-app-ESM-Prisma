@@ -1,32 +1,26 @@
-//import recordsData from '../../data/records.json' assert { type: 'json' };
-
-
-import fs from 'fs';
-import path from 'path';
+// ✅ Import recordsData using 'with' syntax for JSON file handling
+import recordsData from '../../data/records.json' with { type: 'json' };
 import { v4 as uuid } from 'uuid';
 
-// Resolving the path to the JSON file
-const filePath = path.resolve('data/records.json');
-
 const createRecord = (title, artist, year, available, genre) => {
-  // Load the JSON file synchronously
-  const recordsData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-
+  // ✅ Generate a new record object with a unique ID
   const newRecord = {
-    id: uuid(), // Generate a unique ID
+    id: uuid(), // ✅ Generate a unique ID
     title,
-    artist, // Use artist instead of author
-    year, // Use year instead of isbn
+    artist, // ✅ Use artist instead of author
+    year,   // ✅ Use year instead of isbn
     available,
     genre,
   };
 
-  recordsData.records.push(newRecord); // Add the new record to the array
+  // ✅ Add the new record to the array
+  recordsData.records.push(newRecord);
 
-  // Write the updated records array back to the records.json file
-  fs.writeFileSync(filePath, JSON.stringify(recordsData, null, 2)); // Write the data with indentation
-  
-  return newRecord; // Return the newly created record
+  // ✅ Log confirmation of the new record
+  console.log('New record created:', newRecord);
+
+  // ✅ Return the newly created record
+  return newRecord;
 };
 
 export default createRecord;

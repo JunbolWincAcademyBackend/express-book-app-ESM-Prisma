@@ -116,6 +116,33 @@
       "pages": 336,
       "available": true,
       "genre": "Fiction"
+    },
+    {
+      "id": "60adc1a3-8fb3-4f04-a8fe-c6245c5ab07c",
+      "title": "100 Years of Solitude",
+      "author": "Gabriel Garcia Marquez",
+      "isbn": "9780060883287",
+      "pages": 400,
+      "available": true,
+      "genre": "Fiction"
+    },
+    {
+      "id": "a978447f-98d0-4a1a-8e2c-7ebfe07104ea",
+      "title": "1984",
+      "author": "George Orwell",
+      "isbn": "9780451524935",
+      "pages": 328,
+      "available": true,
+      "genre": "Fiction"
+    },
+    {
+      "id": "37c6e8c7-345e-4608-b9dc-ac481c5d0c22",
+      "title": "Brave New World",
+      "author": "Aldous Huxley",
+      "isbn": "9780060850524",
+      "pages": 268,
+      "available": true,
+      "genre": "Science Fiction"
     }
   ]
 }

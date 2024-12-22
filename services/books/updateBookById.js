@@ -1,22 +1,15 @@
-//import booksData from '../../data/books.json' assert { type: 'json' };
-
-import fs from 'fs';
-import path from 'path';
-
-// Resolving the path to the JSON file
-const filePath = path.resolve('data/books.json');
+// ✅ Import booksData using 'with' syntax for JSON file handling
+import booksData from '../../data/books.json' with { type: 'json' };
 
 const updateBookById = (id, title, author, isbn, pages, available, genre) => {
-  // Load the JSON file synchronously
-  const booksData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-
+  // ✅ Find the book with the specified ID
   const book = booksData.books.find((book) => book.id === id);
 
   if (!book) {
     throw new Error(`Book with id ${id} was not found!`);
   }
 
-  // Update the book's properties using the Nullish Coalescing Operator
+  // ✅ Update the book's properties using the Nullish Coalescing Operator
   book.title = title ?? book.title;
   book.author = author ?? book.author;
   book.isbn = isbn ?? book.isbn;
@@ -24,13 +17,15 @@ const updateBookById = (id, title, author, isbn, pages, available, genre) => {
   book.available = available ?? book.available;
   book.genre = genre ?? book.genre;
 
-  // Write the updated books array back to the books.json file
-  fs.writeFileSync(filePath, JSON.stringify(booksData, null, 2)); // Write the data with indentation
+  // ✅ Log confirmation of the updated book
+  console.log('Updated book:', book);
 
+  // ✅ Return the updated book object
   return book;
 };
 
 export default updateBookById;
+
 
 
 

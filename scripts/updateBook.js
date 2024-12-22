@@ -1,7 +1,6 @@
-// import booksData from '../../data/books.json' assert { type: 'json' };
+// Import booksData using 'with' syntax for JSON file handling
+import booksData from '../../data/books.json' with { type: 'json' };
 
-import fs from 'fs';
-import path from 'path';
 import getAuthToken from '../utils/getAuthToken.js';
 
 async function updateBook(bookId, updatedBookData) {
@@ -9,29 +8,22 @@ async function updateBook(bookId, updatedBookData) {
     const token = await getAuthToken(); // Request a new token
     console.log('Token received:', token); // Log the token (optional)
 
-    // Resolving the path to the books.json file
-    const booksFilePath = path.resolve('data/books.json');
-
-    // Load the JSON file synchronously
-    const booksData = JSON.parse(fs.readFileSync(booksFilePath, 'utf8'));
-
+    // ✅ Find the index of the book to be updated
     const bookIndex = booksData.books.findIndex((book) => book.id === bookId);
 
     if (bookIndex === -1) {
       throw new Error(`Book with id ${bookId} not found`);
     }
 
+    // ✅ Create the updated book object
     const updatedBook = {
       id: bookId,
       ...updatedBookData,
     };
 
-    booksData.books[bookIndex] = updatedBook;
+    booksData.books[bookIndex] = updatedBook; // ✅ Update the book in the books array
 
-    // Write the updated books array back to the books.json file
-    fs.writeFileSync(booksFilePath, JSON.stringify(booksData, null, 2));
-
-    console.log('Book updated:', updatedBook); // Log the updated book
+    console.log('Book updated:', updatedBook); // ✅ Log the updated book
   } catch (error) {
     console.error('Error updating the book:', error);
   }
@@ -49,4 +41,3 @@ const updatedBookData = {
 };
 
 updateBook(bookId, updatedBookData);
-

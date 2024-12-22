@@ -1,43 +1,33 @@
-// Import node-fetch dynamically (for ES Module support)
-async function getAuthToken() {
-    const fetch = (await import('node-fetch')).default;
+import axios from 'axios';
 
-    try {
-        // Make the POST request to Auth0 to get the access token
-        const response = await fetch('https://dev-7txjr4h7f68rlivl.us.auth0.com/oauth/token', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                client_id: process.env.AUTH0_CLIENT_ID || 'Op70SJ5Iz3LK6f0wu1vfuqkcL9Fa6fyk',
-                client_secret: process.env.AUTH0_CLIENT_SECRET || '7EhHrqMukJIlHhg_ksnaOsu6u2dOSyVptAiOCbmU8yuCY6iH5SDguSw1IBABWhGo',
-                audience: 'https://book-store-api',
-                grant_type: 'client_credentials'
-            })
-        });
-
-        // Parse the response to JSON
-        const data = await response.json();
-        console.log('Auth0 Token Response:', data); // ✅ Log the full Auth0 token response
-
-        // Return the access token
-        return data.access_token;
-
-    } catch (error) {
-        // Handle any errors (e.g., network errors, invalid credentials)
-        console.error('Error fetching the access token:', error);
-        throw new Error('Failed to fetch access token');
-    }
-}
+const getAuthToken = async (username, password) => {
+  try {
+    const response = await axios.post(
+      `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
+      {
+        grant_type: 'client_credentials',
+        username,
+        password,
+        client_id: process.env.AUTH0_CLIENT_ID,
+        client_secret: process.env.AUTH0_CLIENT_SECRET,
+        audience: process.env.AUTH0_AUDIENCE,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data.access_token;
+  } catch (error) {
+    console.error('Error fetching Auth Token:', error.response?.data || error.message);
+    throw new Error('Failed to get Auth Token');
+  }
+};
 
 export default getAuthToken;
 
-
-
-
-
 //In the getAuthToken.js code, the reason it returns a promise is that it uses the request-promise library. This library is built on top of the standard request library and automatically wraps the HTTP request in a promise.The request function from the request-promise library returns a promise. This means that when you call request(options), it does not return the actual response immediately. Instead, it returns a promise that will eventually be resolved with the response data once the HTTP request completes.The 'await' means that the function pauses execution until the promise returned by request(options) is resolved. Once the response has a value (options) then it will continue with the code below which put the 'response' into the variable access_token which in the routes will be add it as a token.
-
-
 
 // NOTE on the reason why this file was created:
 
@@ -65,6 +55,57 @@ authMiddleware: The bouncer checks visitor IDs (tokens) to allow them into the B
 getAuthToken.js: The bouncer gets his own ID (token) to visit another bar (API) and fetch something (like external information).
 When Does the Bouncer Need His Own ID? 🎫
 When the bouncer (your app) needs to interact with another bar (an external service or API), he needs an ID that will allow him to be recognized as a legitimate "visitor" at that other bar.
-Example: Your Express app might need to call an external API (like Auth0 or another service) to get information or perform an action, and it needs an auth token for itself to do so. */
+Example: Your Express app might need to call an external API (like Auth0 or another service) to get information or perform an action, and it needs an auth token for itself to do so.
 
 
+Why Axios is Used in getAuthToken.js
+In getAuthToken.js, Axios is used again to request a machine-to-machine access token. This is slightly different from login.js because it involves client credentials, not user credentials.
+
+Here’s why:
+
+Machine-to-Machine Authentication:
+
+Your API (e.g., the bookstore prisma app) sometimes needs to perform secure actions that are not tied to a specific user but to the app itself. For example, calling another API, accessing a database, or performing backend actions.
+In this case, the app authenticates itself using the client_id and client_secret provided by Auth0.
+
+grant_type: 'password':
+
+This is used in Resource Owner Password Grant, where a user provides their username and password directly to obtain a token.
+This method is typically used in scenarios where you trust the client application, such as a first-party application.
+
+In your case:
+grant_type: 'password',
+username,
+password,
+client_id: process.env.AUTH0_CLIENT_ID,
+client_secret: process.env.AUTH0_CLIENT_SECRET,
+audience: process.env.AUTH0_AUDIENCE,
+Here:
+
+Username and password are provided by the user (junierba@gmail.com and its password).
+Auth0 validates the credentials and returns an access token (JWT).
+
+You're using the Resource Owner Password Grant (grant_type: 'password') because you're validating a user's credentials (username and password) to issue a token for their API access.
+
+If you were implementing machine-to-machine authentication (e.g., for server-to-server communication), you'd use grant_type: 'client_credentials' instead.
+
+Would you like more clarification on when to use each grant type? 😊
+
+Why Axios:
+
+Same reasons as in login.js:
+Clean handling of POST requests and headers.
+Easy parsing of JSON responses.
+Simplifies error handling for cases where Auth0 might return a failure response.
+Example of its Usage in getAuthToken.js:
+javascript
+Copy code
+const response = await axios.post(`https://${process.env.AUTH0_DOMAIN}/oauth/token`, {
+  grant_type: 'client_credentials',
+  client_id: process.env.AUTH0_CLIENT_ID,
+  client_secret: process.env.AUTH0_CLIENT_SECRET,
+  audience: process.env.AUTH0_AUDIENCE,
+});
+Here, Axios is being used to securely get a token that the server (your app) can use for backend operations, like adding a new book or accessing protected resources.
+
+*/

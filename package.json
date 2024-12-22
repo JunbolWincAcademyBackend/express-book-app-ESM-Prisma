@@ -6,14 +6,17 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon --experimental-json-modules index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"nodemon index.js\" \"npx open-cli http://localhost:3000\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sentry/node": "^8.33.1",
+    "@sentry/node": "^7.48.0",
+    "@sentry/tracing": "^7.48.0",
     "axios": "^1.7.7",
-    "dotenv": "^16.4.5",
+    "concurrently": "^9.1.0",
+    "dotenv": "^16.4.7",
     "express": "^4.19.2",
     "express-oauth2-jwt-bearer": "^1.6.0",
     "jsonwebtoken": "^9.0.2",
