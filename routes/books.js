@@ -1,8 +1,8 @@
 import express from 'express';
 import getBooks from '../services/books/getBooks.js'; // Service to fetch all books
-import getBookById from '../services/books/getBookById-bkup.js'; // Service to fetch a single book by ID
+import getBookById from '../services/books/getBookById.js'; // Service to fetch a single book by ID
 import createBook from '../services/books/createBook.js'; // Service to create a new book
-import updateBookById from '../services/books/updateBookById-bkup.js'; // Service to update a book by ID
+import updateBookById from '../services/books/updateBookById.js'; // Service to update a book by ID
 import deleteBook from '../services/books/deleteBook.js'; // Service to delete a book by ID
 import authMiddleware from '../middleware/advancedAuth.js'; // Middleware for authentication
 import getAuthToken from '../utils/getAuthToken.js'; // Utility to fetch Auth0 token
