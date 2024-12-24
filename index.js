@@ -1,29 +1,29 @@
-import 'dotenv/config'; // Loads environment variables from .env file
+import 'dotenv/config'; // Load environment variables
 import express from 'express';
-import * as Sentry from '@sentry/node'; // ✅ Correct wildcard import for ES Modules
-import * as Tracing from '@sentry/tracing'; // ✅ Correct import for tracing
+import * as Sentry from '@sentry/node'; // Import Sentry for error tracking
+import * as Tracing from '@sentry/tracing'; // Import Tracing for performance monitoring
 import booksRouter from './routes/books.js'; // Book routes
 import recordsRouter from './routes/records.js'; // Records routes
 import log from './middleware/logMiddleware.js'; // Logging middleware
 import loginRouter from './routes/login.js'; // Login routes
 import errorHandler from './middleware/errorHandler.js'; // Custom error handler
+import userRouter from './routes/users.js'; // Add this line here (//2)
 
-const app = express(); // Creates an instance of Express
-const port = process.env.PORT || 3000; // Use port 3000 from .env or default to 3000. This way the server app ( express) will listen to port 3000
+const app = express(); // Create an Express instance
+const port = process.env.PORT || 3000; // Use port from .env or default to 3000
 
 //---------------------------
 // Sentry Initialization
 //---------------------------
-/* Sentry.init() is used to initialize the Sentry SDK. */
+// Sentry initialization
 Sentry.init({
-  dsn: process.env.SENTRY_DSN, // Your Sentry DSN
+  dsn: process.env.SENTRY_DSN,
   integrations: [
-    new Sentry.Integrations.Http({ tracing: true }), // HTTP tracing
-    new Tracing.Integrations.Express({ app }), // Express tracing
+    new Tracing.Integrations.Express({ app }), // Express integration
   ],
-  tracesSampleRate: 1.0, // Adjust sample rate
-  environment: process.env.NODE_ENV || 'development',
+  tracesSampleRate: 1.0,
 });
+
 
 //---------------------------
 // Sentry Middleware
@@ -50,11 +50,14 @@ app.use('/login', loginRouter); // Public route
 
 // Debugging for Books Route
 
-
- app.use('/books', (req, res, next) => {
-  console.log('Books route hit'); // ✅ Debug log
-  next();
-}, booksRouter); // Books route 
+app.use(
+  '/books',
+  (req, res, next) => {
+    console.log('Books route hit'); // ✅ Debug log
+    next();
+  },
+  booksRouter
+); // Books route
 
 app.use('/records', recordsRouter); // Records route
 
@@ -62,6 +65,9 @@ app.use('/records', recordsRouter); // Records route
 app.get('/', (req, res) => {
   res.send('Hello World now!'); // Basic test route
 });
+
+// Use the userRouter (see //3 below)
+app.use('/users', userRouter);
 
 //---------------------------
 // Error Handling Middleware
@@ -88,11 +94,10 @@ app.listen(port, () => {
 process.on('SIGINT', () => {
   console.log('Shutting down gracefully...');
   server.close(() => {
-      console.log('Server closed');
-      process.exit(0);
+    console.log('Server closed');
+    process.exit(0);
   });
 });
-
 
 // NOTES on Sentry use of errorHandlers:
 /* 1. Sentry's RequestHandler vs. Your Custom Request Handling

@@ -1,30 +1,29 @@
 {
-    "users": [
-      {
-        "id": "5c1c37f6-3ee0-4c07-9c8f-5864f74e627d",
-        "username": "johnsmith",
-        "password": "P@ssw0rd"
-      },
-      {
-        "id": "84c6673c-6fd6-4184-9193-6111f58c70f7",
-        "username": "janedoe",
-        "password": "Secret123"
-      },
-      {
-        "id": "72e6876e-5684-4d20-a3ea-ae8482b7e635",
-        "username": "mikejones",
-        "password": "Summer21"
-      },
-      {
-        "id": "b418df60-825b-41e9-8fe9-293bb61fd4e7",
-        "username": "emilybrown",
-        "password": "Hello123"
-      },
-      {
-        "id": "c7a3bdf9-4c7e-428a-b0a9-9cb4a244a746",
-        "username": "davidwilson",
-        "password": "Welcome!"
-      }
-    ]
-  }
-  
+  "users": [
+    {
+      "id": "5c1c37f6-3ee0-4c07-9c8f-5864f74e627d",
+      "username": "johnsmith",
+      "password": "P@ssw0rd"
+    },
+    {
+      "id": "84c6673c-6fd6-4184-9193-6111f58c70f7",
+      "username": "janedoe",
+      "password": "Secret123"
+    },
+    {
+      "id": "b3f1a9d6-7e2b-4c0a-ae6f-fb2a7db0b9cd",
+      "username": "fakeuser1",
+      "password": "FakePass1!"
+    },
+    {
+      "id": "9d2b18f9-dfe5-4bba-a649-33e5b27fda91",
+      "username": "fakeuser2",
+      "password": "FakePass2@"
+    },
+    {
+      "id": "d4299b7a-48cb-4a89-8415-94a37026d123",
+      "username": "fakeuser3",
+      "password": "FakePass3#"
+    }
+  ]
+}

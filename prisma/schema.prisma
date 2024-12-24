@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  username   String   @unique
+  password   String
+
+  // Relation: A user can have multiple orders. The purpose of the following code is to fetch a specific user along with all their related orders. This will be take effect if I use the follwing query:
+  //const userWithOrders = await prisma.user.findUnique({
+ // where: { id: "some-user-id" },
+  //include: { orders: true },
+//});
+  orders     Order[]
+}
+
+model Book {
+  id         String   @id @default(uuid())
+  title      String
+  author     String
+  isbn       String   @unique // ISBNs are typically unique to avoid duplicates
+  pages      Int
+  available  Boolean
+  genre      String
+
+  // Relation: A book can be part of multiple orders
+  orders     Order[]
+}
+
+model Order {
+  id             String   @id @default(uuid())
+
+  // Relations by id
+  book_id        String
+  user_id        String
+
+  order_date     DateTime
+  delivery_date  DateTime?
+  payment_method String
+  comment        String?
+
+  // Relationships
+  user           User     @relation(fields: [user_id], references: [id])
+  book           Book     @relation(fields: [book_id], references: [id])
+}
+
+//NOTEs
+
+//Socrates sugested this so I will leave it here for the future:
+
+/* Enum for Payment Methods (Optional):
+
+If the payment_method field has a predefined set of values (e.g., "Credit Card," "PayPal," etc.), consider using an enum for better type safety and validation:
+prisma
+
+enum PaymentMethod {
+  CREDIT_CARD
+  PAYPAL
+  BANK_TRANSFER
+}
+
+model Order {
+  payment_method PaymentMethod
+}
+ */

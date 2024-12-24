@@ -1,32 +1,40 @@
-// ✅ Import booksData using 'with' syntax for JSON file handling
-import booksData from '../../data/books.json' with { type: 'json' };
+// Import Prisma Client
+import { PrismaClient } from '@prisma/client';
 
-const deleteBook = (id) => {
-  // ✅ Log the book ID being passed to the function
-  console.log('Book ID to delete:', id);
+// Instantiate Prisma Client
+const prisma = new PrismaClient();
 
-  // ✅ Log the loaded books data for debugging
-  console.log('Books data loaded:', booksData);
+const deleteBook = async (id) => {
+  console.log('Attempting to delete book with ID:', id);
 
-  // ✅ Find the index of the book by its ID in the array
-  const index = booksData.books.findIndex((book) => book.id === String(id));
+  try {
+    // Debugging: Test if the book exists in the database
+    const testBook = await prisma.book.findUnique({
+      where: { id },
+    });
+    console.log('Test Book:', testBook); // This will log the book if it exists, or `null` if it doesn't.
 
-  // ✅ Log the index to verify if the book with the given ID is found
-  console.log('Index of the book to delete:', index);
+    // Check if the book exists
+    const existingBook = await prisma.book.findUnique({
+      where: { id },
+    });
 
-  // ✅ If the index is -1, that means no book with the specified ID was found in the array
-  if (index === -1) {
-    return null; // Book not found, return null to signal failure
+    if (!existingBook) {
+      console.log('Book not found in the database.');
+      return null; // No book found
+    }
+
+    // If the book exists, delete it
+    const deletedBook = await prisma.book.delete({
+      where: { id },
+    });
+
+    console.log('Successfully deleted book:', deletedBook);
+    return deletedBook.id; // Return deleted book's ID
+  } catch (error) {
+    console.error('Error in deleteBook function:', error.message);
+    throw error; // Re-throw the error to propagate it to the calling code
   }
-
-  // ✅ If the book is found, remove it from the books array using splice
-  booksData.books.splice(index, 1); // Remove the book from the array
-
-  // ✅ Log confirmation of the successful deletion
-  console.log('Book successfully deleted.');
-
-  // ✅ Return the ID of the deleted book to indicate success
-  return id;
 };
 
 export default deleteBook;

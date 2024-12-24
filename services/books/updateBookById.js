@@ -1,30 +1,41 @@
-// ✅ Import booksData using 'with' syntax for JSON file handling
-import booksData from '../../data/books.json' with { type: 'json' };
+// Import Prisma Client
+import { PrismaClient } from '@prisma/client';
 
-const updateBookById = (id, title, author, isbn, pages, available, genre) => {
-  // ✅ Find the book with the specified ID
-  const book = booksData.books.find((book) => book.id === id);
+// Instantiate Prisma Client
+const prisma = new PrismaClient();
 
-  if (!book) {
+const updateBookById = async (id, title, author, isbn, pages, available, genre) => {
+  console.log(`Attempting to update book with ID: ${id}...`);
+
+  // Check if the book exists
+  const existingBook = await prisma.book.findUnique({
+    where: { id },
+  });
+
+  if (!existingBook) {
+    // Throw an error if the book is not found
     throw new Error(`Book with id ${id} was not found!`);
   }
 
-  // ✅ Update the book's properties using the Nullish Coalescing Operator
-  book.title = title ?? book.title;
-  book.author = author ?? book.author;
-  book.isbn = isbn ?? book.isbn;
-  book.pages = pages ?? book.pages;
-  book.available = available ?? book.available;
-  book.genre = genre ?? book.genre;
+  // Update the book using Prisma's `update` method
+  const updatedBook = await prisma.book.update({
+    where: { id },
+    data: {
+      title: title ?? existingBook.title,       // Use nullish coalescing to preserve existing values
+      author: author ?? existingBook.author,
+      isbn: isbn ?? existingBook.isbn,
+      pages: pages ?? existingBook.pages,
+      available: available ?? existingBook.available,
+      genre: genre ?? existingBook.genre,
+    },
+  });
 
-  // ✅ Log confirmation of the updated book
-  console.log('Updated book:', book);
-
-  // ✅ Return the updated book object
-  return book;
+  console.log('Updated book:', updatedBook);
+  return updatedBook; // Return the updated book
 };
 
 export default updateBookById;
+
 
 
 
